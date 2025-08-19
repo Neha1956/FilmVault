@@ -1,28 +1,6 @@
-import React, { useEffect, useState } from "react";
 
-function WatchlistCard({ search }) {
-  const [finalList, setFinalList] = useState([]);
 
-  // page load pe localStorage se movies lana
-  useEffect(() => {
-    const saved = localStorage.getItem("new_watchlist");
-    if (saved) {
-      setFinalList(JSON.parse(saved));
-    }
-  }, []);
-
-  // delete function yahi pe bana diya
-  const handleRemove = (movieObj) => {
-    const filterwatchlist = finalList.filter((movie) => {
-      if (movie.imdbID && movieObj.imdbID) {
-        return movie.imdbID !== movieObj.imdbID;
-      }
-      return movie.Title !== movieObj.Title;
-    });
-
-    setFinalList(filterwatchlist);
-    localStorage.setItem("new_watchlist", JSON.stringify(filterwatchlist));
-  };
+function WatchlistCard({ search ,finalList,handleremove}) {
 
   return (
     <>
@@ -36,6 +14,7 @@ function WatchlistCard({ search }) {
               key={index}
               className="border-gray-200 rounded-lg p-4 shadow transition"
             >
+              
               <div>
                 <img
                   className="w-[15rem] h-[10rem]"
@@ -62,7 +41,7 @@ function WatchlistCard({ search }) {
               <div className="flex justify-center">
                 <button
                   className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 mt-1"
-                  onClick={() => handleRemove(movies)}
+                  onClick={() => handleremove(movies)}
                 >
                   Delete
                 </button>

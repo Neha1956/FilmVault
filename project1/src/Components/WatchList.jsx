@@ -1,9 +1,9 @@
-import React from 'react';
-import { useState } from 'react';
-import WatchlistCard from './WatchlistCard';
-import Button from './Button';
-function WatchList({watchlist,handleremove}) {
-/*  const movies = [
+import React from "react";
+import { useState } from "react";
+import WatchlistCard from "./WatchlistCard";
+import Button from "./Button";
+function WatchList({ watchlist, handleremove }) {
+  /*  const movies = [
     {
       name: 'Lagaan',
       rating: 9.5,
@@ -19,14 +19,13 @@ function WatchList({watchlist,handleremove}) {
       poster: 'https://upload.wikimedia.org/wikipedia/en/d/df/3_idiots_poster.jpg'
     }
   ];*/
-   const [sortedList, setSortedList] = useState(watchlist);
-  const [search, setsearch]=useState('')
-  const[filtertype,setfiltertype]=useState('all');
-  function handlesearch(e){
+  const [sortedList, setSortedList] = useState(null);
+  const [search, setsearch] = useState("");
+  const [filtertype, setfiltertype] = useState("all");
+  function handlesearch(e) {
     setsearch(e.target.value);
-
   }
-
+  /*
   function incrementfun(){
     const sorted = [...sortedList].sort((a, b) => a.Year - b.Year); 
       setSortedList(sorted); 
@@ -42,37 +41,75 @@ function WatchList({watchlist,handleremove}) {
 
     const filterlist=sortedList.filter((movie)=>
     filtertype==="all"?true:movie.Type===filtertype );
-    console.log(filterlist);
+    console.log(filterlist);*/
 
-    const finalList = filterlist.filter((movie) =>
-  movie.Title.toLowerCase().includes(search.toLowerCase())
-);
-console.log(finalList)
-  
-  
+  const filterlist = watchlist.filter((movie) =>
+    filtertype === "all" ? true : movie.Type === filtertype
+  );
+
+  let finalList = filterlist.filter((movie) =>
+    movie.Title.toLowerCase().includes(search.toLowerCase())
+  );
+  console.log(finalList);
+
+  /*if (sortedList === "asc") {
+    finalList = [...finalList].sort((a, b) => a.Year - b.Year);
+  } else if (sortedList === "desc") {
+    finalList = [...finalList].sort((a, b) => b.Year - a.Year);
+  }*/
+
+    if (sortedList === 'asc') {
+  finalList = [...finalList].sort((a, b) => {
+    const yearA = parseInt(a.Year.split('–')[0]) || 0;
+    const yearB = parseInt(b.Year.split('–')[0]) || 0;
+    return yearA - yearB;
+  });
+} else if (sortedList === 'desc') {
+  finalList = [...finalList].sort((a, b) => {
+    const yearA = parseInt(a.Year.split('–')[0]) || 0;
+    const yearB = parseInt(b.Year.split('–')[0]) || 0;
+    return yearB - yearA;
+  });
+}
 
   return (
     <div className="min-h-screen p-4">
-
-      <Button setfiltertype={setfiltertype} filtertype={filtertype}/>
+      <Button setfiltertype={setfiltertype} filtertype={filtertype} />
       {/* Search Bar */}
       <div className="flex justify-center mb-6">
         <input
-        onChange={handlesearch}
-        value={search}
+          onChange={handlesearch}
+          value={search}
           type="text"
           placeholder="Search Movies"
           className="bg-gray-400 shadow rounded-lg w-[17rem] p-3 outline-none focus:ring-2 focus:ring-blue-400"
         />
       </div>
-      <div className='flex justify-center'>
-        <div   onClick={decrementfun} className='cursor-pointer text-center  rounded-md text-white font-bold w-[35px] bg-blue-900/70  items-center mr-4'>New </div>
- <div onClick={incrementfun} className=' cursor-pointer ml-4 text-center  items-center rounded-md  font-bold text-white w-[30px] bg-blue-900/70'>Old </div>
+      <div className="flex justify-center">
+        <div
+          onClick={() => setSortedList("desc")}
+          className="cursor-pointer text-center  rounded-md text-white font-bold w-[35px] bg-blue-900/70  items-center mr-4"
+        >
+          New
+        </div>
+        <div
+          onClick={() => setSortedList("asc")}
+          className=" cursor-pointer ml-4 text-center  items-center rounded-md  font-bold text-white w-[30px] bg-blue-900/70"
+        >
+          Old
+        </div>
       </div>
-
-      {/* Responsive Cards */}
-      <WatchlistCard search={search} handleremove={handleremove} finalList={finalList}/>
-     
+      {finalList.length === 0 && search ? (
+        <p className="text-center text-gray-600 mt-6 text-lg font-semibold">
+          🎬 No movies in watchlist
+        </p>
+      ) : (
+        <WatchlistCard
+          search={search}
+          handleremove={handleremove}
+          finalList={finalList}
+        />
+      )}
     </div>
   );
 }

@@ -34,7 +34,7 @@ let handleremove=(movieObj)=>{
    
   })
    setwatchalist(filterwatchlist)
-   //localStorage.setItem('new_watchlist',JSON.stringify(filterwatchlist));
+  // localStorage.setItem('new_watchlist',JSON.stringify(filterwatchlist));
   
 }
 
