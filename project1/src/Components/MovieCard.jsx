@@ -1,4 +1,5 @@
 import React from "react";
+const apiKey = import.meta.env.VITE_OMDB_API_KEY;
 import  { useEffect, useState } from 'react'
 import Pagination from './Pagination'
 function MovieCard({handlewatchlist,handleremove,watchlist,search}) {
@@ -8,7 +9,7 @@ function MovieCard({handlewatchlist,handleremove,watchlist,search}) {
   useEffect(()=>{
      setloading(true); 
      const searchitem=search.trim()===""?"Batman":search;
-    fetch(`http://www.omdbapi.com/?apikey=77cb69db&s=${searchitem}&page=${count}`
+    fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=${searchitem}&page=${count}`
      )
       .then((res) => res.json())
       .then((json) => {
@@ -17,7 +18,7 @@ function MovieCard({handlewatchlist,handleremove,watchlist,search}) {
        
            setTimeout(() => {
           setloading(false);
-        }, 2000); 
+        }, 1000); 
       
         
       })
