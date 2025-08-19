@@ -99,7 +99,7 @@ function WatchList({ watchlist, handleremove }) {
           Old
         </div>
       </div>
-      {finalList.length === 0 && search ? (
+      {finalList.length === 0  ? (
         <p className="text-center text-gray-600 mt-6 text-lg font-semibold">
           🎬 No movies in watchlist
         </p>
