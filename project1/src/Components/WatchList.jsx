@@ -47,6 +47,7 @@ function WatchList({watchlist,handleremove}) {
     const finalList = filterlist.filter((movie) =>
   movie.Title.toLowerCase().includes(search.toLowerCase())
 );
+console.log(finalList)
   
   
 

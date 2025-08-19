@@ -1,16 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 
-function WatchlistCard({finalList, handleremove,search}) {
+function WatchlistCard({ search }) {
+  const [finalList, setFinalList] = useState([]);
+
+  // page load pe localStorage se movies lana
+  useEffect(() => {
+    const saved = localStorage.getItem("new_watchlist");
+    if (saved) {
+      setFinalList(JSON.parse(saved));
+    }
+  }, []);
+
+  // delete function yahi pe bana diya
+  const handleRemove = (movieObj) => {
+    const filterwatchlist = finalList.filter((movie) => {
+      if (movie.imdbID && movieObj.imdbID) {
+        return movie.imdbID !== movieObj.imdbID;
+      }
+      return movie.Title !== movieObj.Title;
+    });
+
+    setFinalList(filterwatchlist);
+    localStorage.setItem("new_watchlist", JSON.stringify(filterwatchlist));
+  };
+
   return (
     <>
-     <div className="grid grid-cols-2  md:grid-cols-4 lg:grid-cols-6 gap-6">
-        {finalList.filter((movies)=>movies.Title.toLowerCase().includes(search.toLowerCase())).map((movies, index) => (
-          <div
-            key={index}
-            className="border-gray-200  rounded-lg  p-4 shadow transition"
-          >
-             <div className="mb-">
-             
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+        {finalList
+          .filter((movies) =>
+            movies.Title.toLowerCase().includes(search.toLowerCase())
+          )
+          .map((movies, index) => (
+            <div
+              key={index}
+              className="border-gray-200 rounded-lg p-4 shadow transition"
+            >
               <div>
                 <img
                   className="w-[15rem] h-[10rem]"
@@ -18,40 +43,35 @@ function WatchlistCard({finalList, handleremove,search}) {
                   alt="poster"
                 />
               </div>
-            </div>
-            <div className="flex">
-              <span className="font-semibold">Name:</span>
-              <div className="text-gray-700 pl-4">{movies.Title}</div>
-            </div>
 
-            <div className="flex">
-              <span className="font-semibold">Year:</span>
-              <div className="text-gray-700 pl-4">{movies.Year}</div>
-            </div>
+              <div className="flex">
+                <span className="font-semibold">Name:</span>
+                <div className="text-gray-700 pl-4">{movies.Title}</div>
+              </div>
 
-           
+              <div className="flex">
+                <span className="font-semibold">Year:</span>
+                <div className="text-gray-700 pl-4">{movies.Year}</div>
+              </div>
 
-            <div className="flex">
-              <span className="font-semibold">Type:</span>
-              <div className="text-gray-700 pl-4">{movies.Type}</div>
-            </div>
+              <div className="flex">
+                <span className="font-semibold">Type:</span>
+                <div className="text-gray-700 pl-4">{movies.Type}</div>
+              </div>
 
-           
-
-            <div>
-             
-              <div className='flex justify-center'>
-                <button className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 mt-1" onClick={()=>handleremove(movies)}>
+              <div className="flex justify-center">
+                <button
+                  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 mt-1"
+                  onClick={() => handleRemove(movies)}
+                >
                   Delete
                 </button>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
-      
     </>
-  )
+  );
 }
 
-export default WatchlistCard
+export default WatchlistCard;

@@ -1,5 +1,5 @@
 import Movies from "./Components/Movies"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Navbar from "./Components/Navbar"
 import { BrowserRouter,Routes,Route } from "react-router-dom"
 import WatchList from "./Components/WatchList"
@@ -13,24 +13,31 @@ const [watchlist,setwatchalist]=useState(()=>{
     return [];
   }
 });
-
+useEffect(()=>{
+localStorage.setItem('new_watchlist',JSON.stringify(watchlist));
+},[watchlist])
 
 let handlewatchlist=(movieObj)=>{
   const newwatchlist=[...watchlist,movieObj];
-localStorage.setItem('new_watchlist',JSON.stringify(newwatchlist));
+
   setwatchalist(newwatchlist);
 //  console.log(watchlist);
 }
 
 let handleremove=(movieObj)=>{
   const filterwatchlist=watchlist.filter((movie)=>{
-    return movie.imdbID!==movieObj.imdbID;
-   
+    // prefer imdbID if available, otherwise fallback to Title
+    if (movie.imdbID && movieObj.imdbID) {
+      return movie.imdbID !== movieObj.imdbID;
+    }
+    return movie.Title !== movieObj.Title;
    
   })
-   localStorage.setItem('new_watchlist',JSON.stringify(filterwatchlist));
    setwatchalist(filterwatchlist)
+   //localStorage.setItem('new_watchlist',JSON.stringify(filterwatchlist));
+  
 }
+
 
   return (
     <>
