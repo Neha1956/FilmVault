@@ -6,10 +6,14 @@ function MovieCard({handlewatchlist,handleremove,watchlist,search}) {
   const [data,setData]=useState([]);
   const [count,setcount]=useState(1);
   const [loading,setloading]=useState(true);
+// console.log("API KEY from env:", apiKey); // Debug
+//console.log("API Key from env:", import.meta.env.VITE_OMDB_API_KEY);
+
+
   useEffect(()=>{
      setloading(true); 
      const searchitem=search.trim()===""?"Batman":search;
-    fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=${searchitem}&page=${count}`
+    fetch(`https://www.omdbapi.com/?apikey=${apiKey}&s=${searchitem}&page=${count}`
      )
       .then((res) => res.json())
       .then((json) => {
