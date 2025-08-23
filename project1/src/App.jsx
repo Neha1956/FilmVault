@@ -1,9 +1,12 @@
 import Movies from "./Components/Movies"
-import { useEffect, useState } from "react"
+import { ThemeContext } from "./ContextAPI/ThemeContext"
+import { useEffect, useState,useContext } from "react"
 import Navbar from "./Components/Navbar"
 import { BrowserRouter,Routes,Route } from "react-router-dom"
 import WatchList from "./Components/WatchList"
 function App() {
+//theme
+  const{theme}=useContext(ThemeContext);
 const [watchlist,setwatchalist]=useState(()=>{
  try {
     const saved = localStorage.getItem("new_watchlist");
@@ -42,15 +45,15 @@ let handleremove=(movieObj)=>{
   return (
     <>
       <BrowserRouter>
-       <Navbar/>
+      <div className={`min-h-screen ${theme===true?'bg-black text-white':'bg-white text-black'}`}>
+            <Navbar/>
      
-      
         <Routes>
           <Route path="/" element={<Movies handlewatchlist={handlewatchlist} handleremove={handleremove} watchlist={watchlist}/>}/>
            <Route path="/watchlist" element={<WatchList watchlist={watchlist} handleremove={handleremove}/>}/>
         </Routes>
-      
-      </BrowserRouter>
+        </div>
+            </BrowserRouter>
     </>
   )
 }

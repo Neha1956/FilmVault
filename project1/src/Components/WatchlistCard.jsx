@@ -12,7 +12,7 @@ function WatchlistCard({ search ,finalList,handleremove}) {
           .map((movies, index) => (
             <div
               key={index}
-              className="border-gray-200 rounded-lg p-4 shadow transition"
+              className="border-gray-200 rounded-lg p-4 shadow transition "
             >
               
               <div>
@@ -25,7 +25,7 @@ function WatchlistCard({ search ,finalList,handleremove}) {
 
               <div className="flex">
                 <span className="font-semibold">Name:</span>
-                <div className="text-gray-700 pl-4">{movies.Title}</div>
+                <div className="text-gray-700 pl-4 ">{movies.Title}</div>
               </div>
 
               <div className="flex">

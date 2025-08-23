@@ -59,7 +59,7 @@ for(let i=0; i<watchlist.length; i++){
     <div className="w-10 h-10 border-4 border-gray-300 border-t-transparent rounded-full animate-spin" />
   </div>
     ):(
-      <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8  gap-6 ml-4 ">
+      <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-8  gap-6 ml-4 mr-4 ">
         {data.filter((item)=>item.Title.toLowerCase().includes(search.toLowerCase())).map((item, index) => (
           
           <div
